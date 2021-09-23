@@ -39,7 +39,7 @@ body{
     background-attachment: fixed;
     background-size: cover;
     background-color: rgb(80, 52, 26);
-    font-family: 'Lora', serif;
+    font-family: 'Be Vietnam Pro', sans-serif;
 }
 /* Values by default end */
 
@@ -100,7 +100,26 @@ header h1{
 }
 /* Add book button end */
 
-
+/* books catalogue start */
+#books{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+.book-card{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 259px;
+    height: 330px;
+    background-image: url(images/red.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    outline: 1px solid white;
+}
+/* books catalogue end */
 
 /* Footer styles start */
 footer{
