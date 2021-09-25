@@ -20,6 +20,26 @@
             </h1>
         </header>
         <button id="add-book-button"><i class="fas fa-plus"></i></button>
+        <div class="add-form">
+            <form>
+                <label for="title-input">Title: </label>
+                <br>
+                <input type="text" id="title-input" placeholder="Enter book title" required>
+                <br>
+                <label for="author-input">Author: </label>
+                <br>
+                <input type="text" id="author-input" placeholder="Enter book author" required>
+                <br>
+                <label for="pages-input">Page amount: </label>
+                <br>
+                <input type="number" id="pages-input" min="1" step="1" placeholder="0" required>
+                <br>
+                <label for="read-status-input">Have you read this book? </label>
+                <input type="checkbox">
+                <br>
+                <input type="submit" value="Add book">
+            </form>
+        </div>
         <div id="books">
             <div class="book-card">
                 <p class="book-caption">The greatest of all Time</p>
@@ -28,12 +48,16 @@
                 <p class="page-amount">420</p>
                 <i class="fas fa-trash-alt"></i>
                 <i class="fas fa-circle"></i>
+                <i class="far fa-circle"></i>
+                <i class="fas fa-check-circle"></i>
             </div>
             <div class="book-card">
                 <p class="book-caption">What</p>
                 <p id="by-word">by</p>
                 <p class="book-author">Alan Poe</p>
                 <p class="page-amount">420</p>
+                <i class="fas fa-trash-alt"></i>
+                <i class="fas fa-circle"></i>
             </div>
         </div>
         <footer>

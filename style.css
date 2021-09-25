@@ -100,12 +100,85 @@ header h1{
 }
 /* Add book button end */
 
+/* Add form start */
+.add-form{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(15px);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+.add-form.active{
+    visibility: visible;
+    opacity: 1;
+}
+.add-form form{
+    display: relative;
+    transform: translateY(-50px);
+    transition: 0.4s;
+    padding: 20px;
+    padding-top: 10px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 45px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 500px;
+}
+.add-form label{
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    font-family: inherit;
+    font-size: 25px;
+}
+.add-form input[type="text"], .add-form input[type="number"]{
+    color: rgb(80, 80, 80);
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    height: 30px;
+    font-size: 18px;
+    font-family: inherit;
+}
+.add-form input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+}
+.add-form input[type="submit"]{
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 30px;
+    font-size: 25px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(80, 80, 80);
+    font-family: inherit;
+    display: block;
+    transition: 0.1s;
+}
+.add-form input[type="submit"]:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+/* Add form end */
+
 /* books catalogue start */
 #books{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-top: 40px;
+    z-index: 1;
 }
 .book-card{
     position: relative;
@@ -182,6 +255,18 @@ header h1{
                  0px 0px 16px aqua;
     transition: 0.2s;
 }
+.far.fa-circle, .fas.fa-check-circle{
+    position: absolute;
+    font-size: 30px;
+    top: 17px;
+    left: 17px;
+    color: white;
+    transition: 0.2s;
+    opacity: 0;
+}
+.fas.fa-check-circle{
+    color: rgb(0, 255, 0);
+}
 .book-card:hover{
     transform: translateY(-10px);
     background-color: rgba(255, 255, 255, 0.1);
@@ -197,12 +282,18 @@ header h1{
     opacity: 0;
     visibility: hidden;
 }
+.book-card:hover .far.fa-circle, .book-card:hover .fas.fa-check-circle{
+    opacity: 1;
+}
 .fas.fa-trash-alt:hover{
     background-color: rgba(255, 0, 0, 0.4);
     transform: scale(1.2);
+    cursor: pointer;
 }
-
-
+.far.fa-circle:hover, .fas.fa-check-circle:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
 /* books catalogue end */
 
 /* Footer styles start */
@@ -217,6 +308,7 @@ footer{
     font-family: inherit;
     font-size: 18px;
     color: white;
+    z-index: 2;
 }
 .far.fa-copyright{
     color: white;
