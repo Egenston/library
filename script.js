@@ -8,6 +8,56 @@ function Book(title, author, pages, status) {
 const books = document.getElementById('books');
 function addBookToLibrary(book) {
     myLibrary.push(book);
+    //creating book card
+    let bookCard = document.createElement('div');
+    bookCard.className = "book-card";
+    bookCard.setAttribute("data-card-index", myLibrary.length-1);
+    //creating book title
+    let bookTitle = document.createElement('p');
+    bookTitle.className = "book-caption";
+    bookTitle.innerText = book.title;
+    bookCard.appendChild(bookTitle);
+    //by word
+    let byWord = document.createElement('p');
+    byWord.setAttribute("id", "by-word");
+    byWord.innerText = "by";
+    bookCard.appendChild(byWord);
+    //creating book author
+    let bookAuthor = document.createElement('p');
+    bookAuthor.className = "book-author"
+    bookAuthor.innerText = book.author;
+    bookCard.appendChild(bookAuthor);
+    //creating page amount
+    let pageAmount = document.createElement('p');
+    pageAmount.className = "page-amount";
+    pageAmount.innerText = book.pages;
+    bookCard.appendChild(pageAmount);
+    //creating delete button
+    let deleteButton = document.createElement('i');
+    deleteButton.className = "fas fa-trash-alt";
+    bookCard.appendChild(deleteButton);
+    //creating "unread" circle
+    let unread = document.createElement('i');
+    unread.className = "fas fa-circle";
+    if(book.status) unread.style.visibility = "hidden";
+    bookCard.appendChild(unread);
+    //creating read status buttons
+    let unreadButton = document.createElement('i');
+    unreadButton.className = "far fa-circle";
+    if(book.status) unreadButton.style.visibility = "hidden"
+    bookCard.appendChild(unreadButton);
+    let readButton = document.createElement('i');
+    readButton.className = "fas fa-check-circle";
+    if(!book.status) readButton.style.visibility = "hidden";
+    bookCard.appendChild(readButton);
+    //adding book card to the page
+    const children = bookCard.children;
+    for (let i = 0; i < children.length; i++) {
+        children[i].setAttribute("data-index", myLibrary.length-1);
+    }
+    books.appendChild(bookCard);
+    console.log("amount:" + books.children.length);
+    refreshDeleteButtons();
 }
 const addButton = document.getElementById('add-book-button');
 const addForm = document.querySelector('.add-form');
@@ -56,6 +106,31 @@ addBookButton.addEventListener("click", () => {
     }
 });
 
-
-
-
+//deleting books
+function refreshDeleteButtons() {
+    let deleteButtons = document.querySelectorAll('.fas.fa-trash-alt');
+    deleteButtons.forEach(button => {
+        let clone = button.cloneNode(true);
+        button.parentNode.replaceChild(clone, button);
+    })
+    deleteButtons = document.querySelectorAll('.fas.fa-trash-alt');
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            let currentIndex = button.dataset.index;
+            const bookToRemove = document.querySelector(`[data-card-index="${+currentIndex}"]`);
+            myLibrary.splice(+currentIndex, 1);
+            books.removeChild(bookToRemove);
+            console.log("left:" + books.children.length);
+            console.log(myLibrary);
+            refreshIndexes();
+        });
+    })
+}
+function refreshIndexes() {
+    for (let i = 0; i < books.children.length; i++) {
+        books.children[i].dataset.cardIndex = i;
+        for (let j = 0; j < books.children[i].children.length; j++) {
+            books.children[i].children[j].setAttribute("data-index", i);
+        }
+    }
+}
