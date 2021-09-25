@@ -336,3 +336,14 @@ footer{
     transform: scale(1.2);
 }
 /* Footer styles end */
+
+@media (max-width: 950px){
+    #books{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 550px){
+    #books{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

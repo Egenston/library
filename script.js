@@ -58,6 +58,8 @@ function addBookToLibrary(book) {
     books.appendChild(bookCard);
     console.log("amount:" + books.children.length);
     refreshDeleteButtons();
+    refreshReadButtons();
+    refreshUnreadButtons();
 }
 const addButton = document.getElementById('add-book-button');
 const addForm = document.querySelector('.add-form');
@@ -120,8 +122,6 @@ function refreshDeleteButtons() {
             const bookToRemove = document.querySelector(`[data-card-index="${+currentIndex}"]`);
             myLibrary.splice(+currentIndex, 1);
             books.removeChild(bookToRemove);
-            console.log("left:" + books.children.length);
-            console.log(myLibrary);
             refreshIndexes();
         });
     })
@@ -133,4 +133,44 @@ function refreshIndexes() {
             books.children[i].children[j].setAttribute("data-index", i);
         }
     }
+}
+
+//mark as read
+function refreshReadButtons() {
+    let readButtons = document.querySelectorAll('.far.fa-circle');
+    readButtons.forEach(button => {
+        let clone = button.cloneNode(true);
+        button.parentNode.replaceChild(clone, button);
+    })
+    readButtons = document.querySelectorAll('.far.fa-circle');
+    readButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            let currentIndex = button.dataset.index;
+            const currentBook = document.querySelector(`[data-card-index="${+currentIndex}"]`);
+            myLibrary[currentIndex].status = true;
+            currentBook.children[5].style.visibility = "hidden";
+            currentBook.children[6].style.visibility = "hidden";
+            currentBook.children[7].style.visibility = "visible";
+        })
+    })
+}
+
+//mark as unread
+function refreshUnreadButtons() {
+    let unreadButtons = document.querySelectorAll('.fas.fa-check-circle');
+    unreadButtons.forEach(button => {
+        let clone = button.cloneNode(true);
+        button.parentNode.replaceChild(clone, button);
+    })
+    unreadButtons = document.querySelectorAll('.fas.fa-check-circle');
+    unreadButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            let currentIndex = button.dataset.index;
+            const currentBook = document.querySelector(`[data-card-index="${+currentIndex}"]`);
+            myLibrary[currentIndex].status = false;
+            currentBook.children[5].style.visibility = "visible";
+            currentBook.children[6].style.visibility = "visible";
+            currentBook.children[7].style.visibility = "hidden";
+        })
+    })
 }
