@@ -12,7 +12,7 @@ function addBookToLibrary(book) {
     let bookCard = document.createElement('div');
     bookCard.className = "book-card";
     bookCard.setAttribute("data-card-index", myLibrary.length-1);
-    bookCard.setAttribute("onclick", "");
+    bookCard.setAttribute("onclick", " ");
     //creating book title
     let bookTitle = document.createElement('p');
     bookTitle.className = "book-caption";

@@ -289,6 +289,7 @@ header h1{
 .book-card:hover{
     transform: translateY(-10px);
     background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
 }
 .book-card:hover::before{
     transform: skewX(45deg) translateX(-250px);
