@@ -95,9 +95,11 @@ header h1{
     background: rgba(255, 255, 255, 0.5);
     transform: skewX(45deg) translateX(300px);
     transition: 0.4s;
+    opacity: 0;
 }
 #add-book-button:hover::before{
     transform: skewX(45deg) translateX(-120px);
+    opacity: 1;
 }
 /* Add book button end */
 
@@ -193,6 +195,7 @@ header h1{
     gap: 30px;
     margin-top: 40px;
     z-index: 1;
+    transition: 0.5s;
 }
 .book-card{
     position: relative;
@@ -223,6 +226,7 @@ header h1{
     background: rgba(255, 255, 255, 0.5);
     transform: skewX(45deg) translateX(410px);
     transition: 0.3s;
+    opacity: 0;
 }
 .book-author, .book-caption, #by-word{
     max-width: 90%;
@@ -288,6 +292,7 @@ header h1{
 }
 .book-card:hover::before{
     transform: skewX(45deg) translateX(-250px);
+    opacity: 1;
 }
 .book-card:hover .fas.fa-trash-alt{
     opacity: 1;
@@ -348,5 +353,20 @@ footer{
 @media (max-width: 550px){
     #books{
         grid-template-columns: repeat(1, 1fr);
+    }
+    #form{
+        width: 97vw;
+    }
+    .add-form label{
+        font-size: 20px;
+    }
+    .footer{
+        font-size: 16px;
+    }
+    .far.fa-copyright{
+        font-size: 15px;
+    }
+    .fab.fa-github{
+        font-size: 17px;
     }
 }
