@@ -10,7 +10,7 @@ function createBookCard(book, index) {
     let bookCard = document.createElement('div');
     bookCard.className = "book-card";
     bookCard.setAttribute('data-card-index', index);
-    bookCard.setAttribute('onlick', '');
+    bookCard.setAttribute('onclick', '');
     //creating book title
     let bookTitle = document.createElement('p');
     bookTitle.className = "book-caption";
