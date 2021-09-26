@@ -1,4 +1,3 @@
-let myLibrary = [];
 function Book(title, author, pages, status) {
     this.title = title;
     this.author = author;
@@ -6,13 +5,12 @@ function Book(title, author, pages, status) {
     this.status = status;
 }
 const books = document.getElementById('books');
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-    //creating book card
+displayBooks();
+function createBookCard(book, index) {
     let bookCard = document.createElement('div');
     bookCard.className = "book-card";
-    bookCard.setAttribute("data-card-index", myLibrary.length-1);
-    bookCard.setAttribute("onclick", " ");
+    bookCard.setAttribute('data-card-index', index);
+    bookCard.setAttribute('onlick', ' ');
     //creating book title
     let bookTitle = document.createElement('p');
     bookTitle.className = "book-caption";
@@ -40,41 +38,52 @@ function addBookToLibrary(book) {
     //creating "unread" circle
     let unread = document.createElement('i');
     unread.className = "fas fa-circle";
-    if(book.status) unread.style.visibility = "hidden";
+    if (book.status) unread.style.visibility = "hidden";
     bookCard.appendChild(unread);
     //creating read status buttons
     let unreadButton = document.createElement('i');
     unreadButton.className = "far fa-circle";
-    if(book.status) unreadButton.style.visibility = "hidden"
+    if (book.status) unreadButton.style.visibility = "hidden"
     bookCard.appendChild(unreadButton);
     let readButton = document.createElement('i');
     readButton.className = "fas fa-check-circle";
-    if(!book.status) readButton.style.visibility = "hidden";
+    if (!book.status) readButton.style.visibility = "hidden";
     bookCard.appendChild(readButton);
     //adding book card to the page
     const children = bookCard.children;
     for (let i = 0; i < children.length; i++) {
-        children[i].setAttribute("data-index", myLibrary.length-1);
+        children[i].setAttribute("data-index", index);
     }
     books.appendChild(bookCard);
-    console.log("amount:" + books.children.length);
-    refreshDeleteButtons();
-    refreshReadButtons();
-    refreshUnreadButtons();
 }
-const addButton = document.getElementById('add-book-button');
-const addForm = document.querySelector('.add-form');
-const form = document.getElementById('form');
+function displayBooks() {
+    removeAllChildNodes(books);
+    for (let i = 0; i < localStorage.length; i++) {
+        let currentBook = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        createBookCard(currentBook, i);
+        refreshDeleteButtons();
+        refreshReadButtons();
+        refreshUnreadButtons();
+    }
+}
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
-//form won't refresh the page after being submitted 
+//form won't refresh the page after being submitted
 function handleForm(event) { event.preventDefault(); }
 form.addEventListener('submit', handleForm);
 
-//Add book form popup window
-addButton.addEventListener("click", () => {
-    addForm.classList.toggle('active');
-    form.style.cssText = "transform: translateY(0px);"
+const addButtonMain = document.getElementById('add-book-button');
+const formDiv = document.querySelector('.add-form');
+const addBookForm = document.getElementById('form');
+addButtonMain.addEventListener("click", () => {
+    formDiv.classList.toggle('active');
+    addBookForm.style.cssText = "transform: translateY(0px);"
 });
+
 //form elements
 const titleInput = document.getElementById('title-input');
 const authorInput = document.getElementById('author-input');
@@ -90,20 +99,24 @@ function resetForm() {
     statusInput.checked = false;
 }
 function closeForm() {
-    addForm.classList.toggle('active');
-    form.style.cssText = "transform: translateY(-50px);"
+    formDiv.classList.toggle('active');
+    addBookForm.style.cssText = "transform: translateY(-50px);"
 }
 closeFormButton.addEventListener("click", () => {
     closeForm();
-    setTimeout(resetForm, 300); 
+    setTimeout(resetForm, 300);
 })
 
 //Add book form button
 const addBookButton = document.getElementById('form-add-book-button');
 addBookButton.addEventListener("click", () => {
-    if(titleInput.value.length > 0 && authorInput.value.length > 0 && pagesInput.value > 0){
+    if (titleInput.value.length > 0 && authorInput.value.length > 0 && pagesInput.value > 0) {
         let newBook = new Book(titleInput.value, authorInput.value, pagesInput.value, statusInput.checked);
-        addBookToLibrary(newBook);
+        createBookCard(newBook, localStorage.length);
+        localStorage.setItem(`${localStorage.length}`, JSON.stringify(newBook));
+        refreshDeleteButtons();
+        refreshReadButtons();
+        refreshUnreadButtons();
         closeForm();
         setTimeout(resetForm, 300);
     }
@@ -121,14 +134,17 @@ function refreshDeleteButtons() {
         button.addEventListener("click", () => {
             let currentIndex = button.dataset.index;
             const bookToRemove = document.querySelector(`[data-card-index="${+currentIndex}"]`);
-            myLibrary.splice(+currentIndex, 1);
+            localStorage.removeItem(currentIndex);
             books.removeChild(bookToRemove);
             refreshIndexes();
         });
     })
 }
 function refreshIndexes() {
-    for (let i = 0; i < books.children.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
+        let currentBook = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        localStorage.removeItem(localStorage.key(i));
+        localStorage.setItem(i.toString(), JSON.stringify(currentBook));
         books.children[i].dataset.cardIndex = i;
         for (let j = 0; j < books.children[i].children.length; j++) {
             books.children[i].children[j].setAttribute("data-index", i);
@@ -148,7 +164,9 @@ function refreshReadButtons() {
         button.addEventListener("click", () => {
             let currentIndex = button.dataset.index;
             const currentBook = document.querySelector(`[data-card-index="${+currentIndex}"]`);
-            myLibrary[currentIndex].status = true;
+            let bookToChange = JSON.parse(localStorage.getItem(currentIndex));
+            bookToChange.status = true;
+            localStorage.setItem(currentIndex, JSON.stringify(bookToChange));
             currentBook.children[5].style.visibility = "hidden";
             currentBook.children[6].style.visibility = "hidden";
             currentBook.children[7].style.visibility = "visible";
@@ -168,7 +186,9 @@ function refreshUnreadButtons() {
         button.addEventListener("click", () => {
             let currentIndex = button.dataset.index;
             const currentBook = document.querySelector(`[data-card-index="${+currentIndex}"]`);
-            myLibrary[currentIndex].status = false;
+            let bookToChange = JSON.parse(localStorage.getItem(currentIndex));
+            bookToChange.status = false;
+            localStorage.setItem(currentIndex, JSON.stringify(bookToChange));
             currentBook.children[5].style.visibility = "visible";
             currentBook.children[6].style.visibility = "visible";
             currentBook.children[7].style.visibility = "hidden";
