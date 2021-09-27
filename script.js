@@ -111,7 +111,7 @@ closeFormButton.addEventListener("click", () => {
 const addBookButton = document.getElementById('form-add-book-button');
 addBookButton.addEventListener("click", () => {
     if (titleInput.value.length > 0 && authorInput.value.length > 0 && pagesInput.value > 0) {
-        let newBook = new Book(titleInput.value, authorInput.value, pagesInput.value, statusInput.checked);
+        let newBook = new Book(titleInput.value, authorInput.value, Math.round(pagesInput.value), statusInput.checked);
         createBookCard(newBook, localStorage.length);
         localStorage.setItem(`${localStorage.length}`, JSON.stringify(newBook));
         refreshDeleteButtons();
